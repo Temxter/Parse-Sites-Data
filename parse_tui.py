@@ -1,5 +1,4 @@
 from parse_utils import *
-import os
 
 URL_TUI_PATTERN_CITY_ID = 'https://apigate.tui.ru/api/office/list?cityId={}&subwayId=&hoursFrom=&hoursTo=&serviceIds=all&toBeOpenOnHolidays=false'
 FILENAME_SAVE_TUI = 'tui.json'

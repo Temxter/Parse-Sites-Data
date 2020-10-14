@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import json
+import time
 
 HEADERS = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36',
@@ -52,6 +53,18 @@ def parse_tui(html_text):
 def set_days(days, days_str, working_hours_list):
     if not days['isDayOff']:
         working_hours_list.append(f'{days_str} {days["startStr"]} - {days["endStr"]}')
+
+
+def define_right_city_ids(url_pattern, from_id, to_id, sleep=300):
+    correct_city_id_list = []
+    for city_id in range(from_id, to_id):
+        response = get_html(url_pattern.format(city_id))
+        is_correct = response.status_code == 200 and response.text and '{"offices":[]}' not in response.text
+        if is_correct:
+            correct_city_id_list.append(city_id)
+        time.sleep(sleep)
+        print(f'city id = {city_id}, correct = {is_correct}')
+    return correct_city_id_list
 
 
 def parse(url, parse_function):
